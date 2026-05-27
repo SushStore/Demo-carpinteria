@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Carpintería Residencial — Monterrey</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        obsidian: '#0e0d0b',
+        charcoal: '#1a1815',
+        bark: '#2c2420',
+        walnut: '#3d2e24',
+        cedar: '#6b4c38',
+        teak: '#9a7255',
+        sand: '#c8a98a',
+        linen: '#e8ddd0',
+        ivory: '#f5f0e8',
+        cream: '#faf7f2',
+        gold: '#c9a84c',
+        'gold-light': '#e2c97e',
+      },
+      fontFamily: {
+        display: ['Cormorant Garamond', 'serif'],
+        body: ['Jost', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background-color: #0e0d0b;
+    color: #e8ddd0;
+    overscroll-behavior: none;
+  }
+
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: #1a1815; }
+  ::-webkit-scrollbar-thumb { background: #6b4c38; border-radius: 10px; }
+
+  .font-display { font-family: 'Cormorant Garamond', serif; }
+
+  /* Hero */
+  .hero-bg {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80');
+    background-size: cover;
+    background-position: center 40%;
+    min-height: 100svh;
+  }
+  .hero-bg::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      170deg,
+      rgba(14,13,11,0.3) 0%,
+      rgba(14,13,11,0.55) 40%,
+      rgba(14,13,11,0.92) 100%
+    );
+  }
+
+  /* Gold line accent */
+  .gold-line {
+    display: block;
+    width: 40px; height: 1px;
+    background: linear-gradient(90deg, #c9a84c, transparent);
+  }
+
+  /* Category pills */
+  .cat-pill {
+    border: 1px solid rgba(201,168,76,0.25);
+    background: rgba(26,24,21,0.7);
+    color: #c8a98a;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s ease;
+    white-space: nowrap;
+    cursor: pointer;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    padding: 7px 14px;
+    border-radius: 2px;
+  }
+  .cat-pill.active, .cat-pill:hover {
+    background: rgba(201,168,76,0.15);
+    border-color: #c9a84c;
+    color: #e2c97e;
+  }
+
+  /* Cards */
+  .product-card {
+    background: #1a1815;
+    border: 1px solid rgba(201,168,76,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .product-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(201,168,76,0.3);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+  }
+  .product-card img {
+    transition: transform 0.5s ease;
+  }
+  .product-card:hover img {
+    transform: scale(1.04);
+  }
+
+  /* CTA button */
+  .btn-wa {
+    background: linear-gradient(135deg, #1a6b3c 0%, #128C7E 100%);
+    color: #fff;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    transition: opacity 0.2s;
+    border-radius: 1px;
+  }
+  .btn-wa:hover { opacity: 0.85; }
+
+  /* Gold CTA */
+  .btn-gold {
+    background: transparent;
+    border: 1px solid #c9a84c;
+    color: #e2c97e;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    transition: all 0.25s ease;
+  }
+  .btn-gold:hover {
+    background: rgba(201,168,76,0.12);
+  }
+
+  /* Search */
+  .search-input {
+    background: rgba(44,36,32,0.5);
+    border: 1px solid rgba(201,168,76,0.15);
+    color: #e8ddd0;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.25s;
+    border-radius: 1px;
+  }
+  .search-input:focus {
+    outline: none;
+    border-color: rgba(201,168,76,0.5);
+  }
+  .search-input::placeholder { color: #9a7255; font-weight: 200; }
+
+  /* Floating WA */
+  .float-wa {
+    position: fixed;
+    bottom: 24px; right: 20px;
+    z-index: 999;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    display: flex; align-items: center; justify-content: center;
+    animation: pulse-wa 2.5s infinite;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  @keyframes pulse-wa {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7); }
+  }
+
+  /* Fade in animation */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up { animation: fadeUp 0.6s ease forwards; }
+
+  .card-enter {
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  /* Divider */
+  .ornament-divider {
+    display: flex; align-items: center; gap: 12px;
+    color: #6b4c38;
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+  }
+  .ornament-divider::before, .ornament-divider::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, #3d2e24, transparent);
+  }
+
+  /* Texture overlay */
+  .texture-overlay::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; opacity: 0.4;
+  }
+
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* Badge */
+  .badge-premium {
+    font-size: 0.5rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: #c9a84c;
+    padding: 2px 7px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════ HERO ═══════════════════════════════════ -->
+<section class="hero-bg texture-overlay relative flex flex-col justify-end pb-12 px-5">
+  <!-- Top nav bar -->
+  <div class="absolute top-0 left-0 right-0 flex items-center justify-between px-5 pt-8 z-10">
+    <div>
+      <span class="font-display text-xs tracking-[0.25em] uppercase text-sand opacity-70">Monterrey, N.L.</span>
+    </div>
+    <a href="tel:+528120817669"
+       class="flex items-center gap-2 text-sand text-xs font-light tracking-wide opacity-80 hover:opacity-100 transition-opacity">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z"/>
+      </svg>
+      81 2081 7669
+    </a>
+  </div>
+
+  <!-- Hero content -->
+  <div class="relative z-10 fade-up">
+    <span class="badge-premium mb-4 inline-block">Carpintería Premium</span>
+    <h1 class="font-display text-4xl leading-none font-light text-ivory mb-2">
+      Carpintería<br>
+      <em class="font-light italic text-sand">Residencial</em>
+    </h1>
+    <span class="gold-line mb-4"></span>
+    <p class="text-linen font-light text-sm leading-relaxed mb-7 max-w-xs opacity-80">
+      Diseño en madera de precisión artesanal para interiores de lujo en Monterrey.
+    </p>
+    <div class="flex gap-3">
+      <a href="#catalogo" class="btn-gold px-6 py-3 text-xs">
+        Ver Catálogo
+      </a>
+      <a href="https://wa.me/528120817669?text=Hola%2C%20me%20gustar%C3%ADa%20conocer%20sus%20servicios%20de%20carpinter%C3%ADa%20premium." target="_blank"
+         class="btn-wa px-6 py-3 flex items-center gap-2">
+        <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Cotizar
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-40 z-10">
+    <span class="text-[9px] tracking-[0.3em] uppercase font-light text-sand">Catálogo</span>
+    <div class="w-px h-5 bg-gradient-to-b from-sand to-transparent"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ CATALOG SECTION ═══════════════════════════════════ -->
+<section id="catalogo" class="px-4 pt-10 pb-6" style="background: #0e0d0b;">
+
+  <!-- Section title -->
+  <div class="mb-6">
+    <div class="ornament-divider mb-5">Catálogo de Proyectos</div>
+    <h2 class="font-display text-2xl font-light text-ivory leading-tight">
+      Cada pieza,<br><em class="text-sand">una obra única.</em>
+    </h2>
+  </div>
+
+  <!-- Search -->
+  <div class="relative mb-5">
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cedar pointer-events-none" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+    </svg>
+    <input id="searchInput" type="text" placeholder="Buscar proyectos..."
+      class="search-input w-full pl-9 pr-4 py-3 text-sm" autocomplete="off">
+  </div>
+
+  <!-- Category filters -->
+  <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1 mb-7">
+    <button class="cat-pill active" data-cat="all">Todos</button>
+    <button class="cat-pill" data-cat="cocinas">Cocinas</button>
+    <button class="cat-pill" data-cat="banos">Baños</button>
+    <button class="cat-pill" data-cat="oficina">Oficinas</button>
+    <button class="cat-pill" data-cat="closets">Closets</button>
+    <button class="cat-pill" data-cat="entretenimiento">TV / Sala</button>
+    <button class="cat-pill" data-cat="tocadores">Tocadores</button>
+  </div>
+
+  <!-- Products grid -->
+  <div id="productsGrid" class="grid grid-cols-1 gap-4">
+    <!-- Injected by JS -->
+  </div>
+
+  <div id="emptyState" class="hidden text-center py-16">
+    <p class="font-display text-xl text-cedar italic">No se encontraron proyectos</p>
+    <p class="text-teak text-sm mt-2 font-light">Intenta con otra búsqueda o categoría.</p>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════ ABOUT STRIP ═══════════════════════════════════ -->
+<section class="mx-4 my-6 p-5" style="background: #1a1815; border: 1px solid rgba(201,168,76,0.12);">
+  <div class="ornament-divider text-[9px] mb-4">Por qué elegirnos</div>
+  <div class="grid grid-cols-3 gap-3 text-center">
+    <div>
+      <p class="font-display text-2xl text-gold font-light">15+</p>
+      <p class="text-teak text-[10px] font-light uppercase tracking-wider mt-0.5">Años de<br>experiencia</p>
+    </div>
+    <div class="border-x border-bark">
+      <p class="font-display text-2xl text-gold font-light">100%</p>
+      <p class="text-teak text-[10px] font-light uppercase tracking-wider mt-0.5">Material<br>premium</p>
+    </div>
+    <div>
+      <p class="font-display text-2xl text-gold font-light">∞</p>
+      <p class="text-teak text-[10px] font-light uppercase tracking-wider mt-0.5">Diseños<br>a medida</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ FOOTER / CONTACT ═══════════════════════════════════ -->
+<footer class="px-5 pt-8 pb-28" style="background: #12100e; border-top: 1px solid rgba(201,168,76,0.1);">
+  <div class="mb-6">
+    <h3 class="font-display text-2xl font-light text-ivory mb-1">
+      Carpintería <em class="text-sand">Residencial</em>
+    </h3>
+    <span class="gold-line"></span>
+  </div>
+
+  <!-- Contact info -->
+  <div class="space-y-4 mb-8">
+    <a href="https://maps.google.com/?q=Toronjas+8981+San+Bernabe+III+Sector+Monterrey" target="_blank"
+       class="flex items-start gap-3 group">
+      <svg class="w-4 h-4 text-gold mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+      </svg>
+      <div>
+        <p class="text-linen text-sm font-light leading-relaxed group-hover:text-sand transition-colors">
+          Toronjas 8981, San Bernabé III Sector<br>
+          64345 Monterrey, N.L.
+        </p>
+      </div>
+    </a>
+
+    <a href="tel:+528120817669" class="flex items-center gap-3 group">
+      <svg class="w-4 h-4 text-gold flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 6.75z"/>
+      </svg>
+      <span class="text-linen text-sm font-light group-hover:text-sand transition-colors">+52 81 2081 7669</span>
+    </a>
+
+    <div class="flex items-center gap-3">
+      <svg class="w-4 h-4 text-gold flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <div>
+        <p class="text-linen text-sm font-light">Lun – Sáb &nbsp;·&nbsp; 8:00 am – 6:00 pm</p>
+        <p class="text-cedar text-xs font-light mt-0.5">Cierre a las 6 p.m.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA footer -->
+  <a href="https://wa.me/528120817669?text=Hola%2C%20quiero%20agendar%20una%20visita%20para%20un%20proyecto%20de%20carpinter%C3%ADa%20residencial." target="_blank"
+     class="flex items-center justify-center gap-3 w-full py-4 btn-wa mb-6">
+    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    <span class="text-xs tracking-widest uppercase">Agendar Visita</span>
+  </a>
+
+  <p class="text-cedar text-[10px] text-center tracking-widest uppercase font-light">
+    © 2025 Carpintería Residencial · Monterrey
+  </p>
+</footer>
+
+<!-- Floating WhatsApp Button -->
+<a href="https://wa.me/528120817669?text=Hola%2C%20me%20interesa%20un%20proyecto%20de%20carpinter%C3%ADa%20residencial." target="_blank" class="float-wa">
+  <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<!-- ═══════════════════════════════════ JAVASCRIPT ═══════════════════════════════════ -->
+<script>
+const products = [
+  {
+    id: 1,
+    cat: 'cocinas',
+    title: 'Cocina Integral Residencial',
+    subtitle: 'Granito negro & madera nogal',
+    desc: 'Diseño a medida con acabados en granito negro absoluto, paneles de nogal europeo y herrajes alemanes de cierre suave. Solución integral desde diseño hasta instalación.',
+    img: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=75',
+    tag: 'Cocinas',
+  },
+  {
+    id: 2,
+    cat: 'cocinas',
+    title: 'Cocina Minimalista Blanco Mate',
+    subtitle: 'Líneas puras, funcionalidad total',
+    desc: 'Frentes en laca blanca mate de alta resistencia con encimera de mármol Calacatta. Organización inteligente: cajones con extractor de aromas y accesorios de aluminio.',
+    img: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?w=600&q=75',
+    tag: 'Cocinas',
+  },
+  {
+    id: 3,
+    cat: 'banos',
+    title: 'Mueble de Baño Flotante Doble',
+    subtitle: 'Doble lavabo · LED integrado',
+    desc: 'Mueble suspendido en madera de teca laminada con doble lavabo empotrado. Iluminación LED inferior que crea efecto flotante y espejo con retroiluminación.',
+    img: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=600&q=75',
+    tag: 'Baños',
+  },
+  {
+    id: 4,
+    cat: 'banos',
+    title: 'Vanity Premium con Espejo LED',
+    subtitle: 'Línea SPA residencial',
+    desc: 'Gabinete en MDF lacado con tecnología de humedad. Espejo con retroiluminación circadiana, cajones de organización y estante abierto para ambientación.',
+    img: 'https://images.unsplash.com/photo-1620626011761-996317702519?w=600&q=75',
+    tag: 'Baños',
+  },
+  {
+    id: 5,
+    cat: 'oficina',
+    title: 'Escritorio Ejecutivo en Escuadra',
+    subtitle: 'Home Office · Diseño ergonómico',
+    desc: 'Escritorio en L con tablero de 40 mm en madera de wengué. Gestión de cables oculta, bandeja lateral deslizable para laptop y estantería flotante a juego.',
+    img: 'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&q=75',
+    tag: 'Oficinas',
+  },
+  {
+    id: 6,
+    cat: 'oficina',
+    title: 'Biblioteca & Estudio Integrado',
+    subtitle: 'Muro completo floor-to-ceiling',
+    desc: 'Sistema de librería del suelo al techo con espacio para escritorio integrado, panel de TV y nichos con iluminación indirecta. Madera de roble natural con detalles en negro mate.',
+    img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=75',
+    tag: 'Oficinas',
+  },
+  {
+    id: 7,
+    cat: 'tocadores',
+    title: 'Tocador Premium con LED Lateral',
+    subtitle: 'Recámara · Iluminación Hollywood',
+    desc: 'Tocador en terciopelo texturizado con espejo de iluminación frontal tipo Hollywood. Cajones con terciopelo interior, sobre en mármol y estante lateral integrado.',
+    img: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=600&q=75',
+    tag: 'Tocadores',
+  },
+  {
+    id: 8,
+    cat: 'tocadores',
+    title: 'Tocador Flotante Minimalista',
+    subtitle: 'Línea nórdica · Cerezo natural',
+    desc: 'Diseño escandinavomoderno en madera de cerezo blanqueado. Espejo redondo con marco de ratán, lámpara de pared integrada y organización oculta de tres compartimentos.',
+    img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=75',
+    tag: 'Tocadores',
+  },
+  {
+    id: 9,
+    cat: 'entretenimiento',
+    title: 'Centro de Entretenimiento LED',
+    subtitle: 'Panel TV · Luces ocultas RGB',
+    desc: 'Mueble de TV de pared completa con iluminación LED retroiluminada personalizable. Módulos con vidrio ahumado, nichos abiertos y panel lateral con acabado en piedra sintética.',
+    img: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=600&q=75',
+    tag: 'TV / Sala',
+  },
+  {
+    id: 10,
+    cat: 'entretenimiento',
+    title: 'Sala Multimedia Completa',
+    subtitle: 'Muro de acento & cajonería',
+    desc: 'Diseño integral de sala con muro de TV en madera de roble ahumado, barra lateral con luz indirecta y cajonería baja. Espacio para proyector oculto incluido.',
+    img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=75',
+    tag: 'TV / Sala',
+  },
+  {
+    id: 11,
+    cat: 'closets',
+    title: 'Vestidor Isla Central',
+    subtitle: 'Walk-in closet · 12 m²',
+    desc: 'Vestidor completo con isla central en granito bianco, zapatero panorámico, zona de colgadores doble, gavetas con luz led interior y espejo de cuerpo completo corredizo.',
+    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75',
+    tag: 'Closets',
+  },
+  {
+    id: 12,
+    cat: 'closets',
+    title: 'Clóset Inteligente Recámara',
+    subtitle: 'Puertas espejo · Máximo aprovechamiento',
+    desc: 'Sistema de clóset de pared con puertas de espejo deslizantes. Interior organizado con doble barral, accesorio para corbatas y cinturones, cajonería y zona de bolsos iluminada.',
+    img: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=75',
+    tag: 'Closets',
+  },
+];
+
+const WA_NUMBER = '528120817669';
+
+function encodeWAMessage(productTitle) {
+  const msg = `Hola, me interesa cotizar el proyecto de *${productTitle}*. ¿Podrían enviarme más información y un presupuesto?`;
+  return encodeURIComponent(msg);
+}
+
+function renderCards(list) {
+  const grid = document.getElementById('productsGrid');
+  const empty = document.getElementById('emptyState');
+
+  if (!list.length) {
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  grid.innerHTML = list.map((p, i) => `
+    <div class="product-card card-enter" style="animation-delay:${i * 60}ms">
+      <div class="overflow-hidden relative" style="height:210px">
+        <img src="${p.img}" alt="${p.title}"
+             class="w-full h-full object-cover"
+             loading="lazy"
+             onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=75'">
+        <div class="absolute inset-0" style="background:linear-gradient(to top, rgba(14,13,11,0.7) 0%, transparent 50%)"></div>
+        <span class="absolute top-3 left-3 badge-premium" style="font-size:0.45rem;">${p.tag}</span>
+      </div>
+      <div class="p-4">
+        <p class="text-teak text-[10px] uppercase tracking-widest font-light mb-1">${p.subtitle}</p>
+        <h3 class="font-display text-lg font-light text-ivory leading-tight mb-2">${p.title}</h3>
+        <span class="gold-line mb-3" style="width:24px"></span>
+        <p class="text-sand text-xs font-light leading-relaxed mb-4" style="opacity:0.8">${p.desc}</p>
+        <a href="https://wa.me/${WA_NUMBER}?text=${encodeWAMessage(p.title)}"
+           target="_blank"
+           class="btn-wa flex items-center justify-center gap-2 w-full py-3">
+          <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Cotizar por WhatsApp
+        </a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── Filter logic ──────────────────────────────────────────────────────────────
+let activeCat = 'all';
+let searchTerm = '';
+
+function applyFilters() {
+  let list = products;
+  if (activeCat !== 'all') list = list.filter(p => p.cat === activeCat);
+  if (searchTerm.trim()) {
+    const q = searchTerm.toLowerCase();
+    list = list.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q) ||
+      p.tag.toLowerCase().includes(q) ||
+      p.subtitle.toLowerCase().includes(q)
+    );
+  }
+  renderCards(list);
+}
+
+// Category buttons
+document.querySelectorAll('.cat-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.dataset.cat;
+    applyFilters();
+  });
+});
+
+// Search input
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value;
+  applyFilters();
+});
+
+// Initial render
+renderCards(products);
+</script>
+</body>
+</html>
